@@ -36,7 +36,7 @@ module Danger
     # Search the latest .xcactivitylog by the passing product_name and profile compilation time
     # @param    [String] target Product name or '.xcactivitylog' path for the target project.
     # @return   [void]
-    def report(product_name)
+    def report(target)
       if target.end_with?('.xcactivitylog')
         profiler = Xcprofiler::Profiler.by_path(target)
       else
