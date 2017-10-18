@@ -34,10 +34,15 @@ module Danger
     attr_accessor :inline_mode
 
     # Search the latest .xcactivitylog by the passing product_name and profile compilation time
-    # @param    [String] product_name Product name for the target project.
+    # @param    [String] target Product name or '.xcactivitylog' path for the target project.
     # @return   [void]
     def report(product_name)
-      profiler = Xcprofiler::Profiler.by_product_name(product_name)
+      if target.end_with?('.xcactivitylog')
+        profiler = Xcprofiler::Profiler.by_path(target)
+      else
+        profiler = Xcprofiler::Profiler.by_product_name(target)
+      end
+      
       profiler.reporters = [
         DangerReporter.new(@dangerfile, thresholds, inline_mode, working_dir)
       ]
